@@ -1,8 +1,28 @@
 import { PageHeader } from "@/components/ui";
 import { KpiStrip, DashboardGrid } from "@/components/layout";
-import { KpiTile, Card, CardHeader, CardContent } from "@/components/ui";
+import { KpiTile, Card, CardHeader, CardContent, StatusBadge } from "@/components/ui";
+import {
+  getDashboardStats,
+  getAssessmentListItems,
+  getInsightsForAssessment,
+  getHeatmapData,
+  getRadarChartData,
+  formatDate,
+} from "@/lib/repositories";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  // Fetch data from repositories
+  const [stats, assessments, insights, heatmap, radarData] = await Promise.all([
+    getDashboardStats(),
+    getAssessmentListItems(),
+    getInsightsForAssessment("assess-1"),
+    getHeatmapData("assess-1"),
+    getRadarChartData("assess-1"),
+  ]);
+
+  const latestInsight = insights[0];
+  const recentAssessments = assessments.slice(0, 3);
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -14,9 +34,12 @@ export default function DashboardPage() {
       <KpiStrip>
         <KpiTile
           label="Ambidexterity Score"
-          value="72"
+          value={stats.overallAmbidexterityScore}
           subtext="Above industry average"
-          trend={{ direction: "up", value: "+5%" }}
+          trend={{
+            direction: stats.trends.ambidexterity.direction,
+            value: `${stats.trends.ambidexterity.direction === "up" ? "+" : ""}${stats.trends.ambidexterity.percentage}%`,
+          }}
           variant="primary"
           icon={
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,9 +49,12 @@ export default function DashboardPage() {
         />
         <KpiTile
           label="Exploration Index"
-          value="68"
+          value={stats.explorationIndex}
           subtext="Innovation capacity"
-          trend={{ direction: "up", value: "+8%" }}
+          trend={{
+            direction: stats.trends.exploration.direction,
+            value: `${stats.trends.exploration.direction === "up" ? "+" : ""}${stats.trends.exploration.percentage}%`,
+          }}
           variant="purple"
           icon={
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -38,9 +64,12 @@ export default function DashboardPage() {
         />
         <KpiTile
           label="Exploitation Index"
-          value="76"
+          value={stats.exploitationIndex}
           subtext="Operational efficiency"
-          trend={{ direction: "neutral", value: "0%" }}
+          trend={{
+            direction: stats.trends.exploitation.direction,
+            value: `${stats.trends.exploitation.percentage}%`,
+          }}
           variant="teal"
           icon={
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,8 +79,8 @@ export default function DashboardPage() {
         />
         <KpiTile
           label="Active Assessments"
-          value="4"
-          subtext="2 in progress"
+          value={stats.activeAssessments}
+          subtext={`${stats.responseRate}% response rate`}
           variant="amber"
           icon={
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,11 +96,73 @@ export default function DashboardPage() {
         <Card>
           <CardHeader
             title="Business Unit Heatmap"
-            description="Performance across dimensions"
+            description="Exploration vs Exploitation balance by unit"
           />
           <CardContent>
-            <div className="h-64 flex items-center justify-center bg-neutral-50 rounded-lg border border-dashed border-neutral-200">
-              <p className="text-sm text-neutral-500">Heatmap visualization coming in Step 5</p>
+            <div className="space-y-2">
+              {/* Legend */}
+              <div className="flex items-center justify-end gap-4 text-xs text-neutral-500 mb-4">
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 rounded bg-brand-purple" />
+                  <span>Exploration</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 rounded bg-brand-teal" />
+                  <span>Exploitation</span>
+                </div>
+              </div>
+
+              {/* Heatmap rows - grouped by unit */}
+              {heatmap.businessUnits.slice(0, 4).map((unit) => {
+                const unitCells = heatmap.cells.filter(
+                  (c) => c.businessUnitId === unit.id
+                );
+                const avgExploration =
+                  unitCells.reduce((sum, c) => sum + c.explorationScore, 0) /
+                  unitCells.length;
+                const avgExploitation =
+                  unitCells.reduce((sum, c) => sum + c.exploitationScore, 0) /
+                  unitCells.length;
+
+                return (
+                  <div
+                    key={unit.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50 hover:bg-neutral-100 transition-colors"
+                  >
+                    <div className="w-24 flex-shrink-0">
+                      <p className="text-sm font-medium text-neutral-900 truncate">
+                        {unit.name.split(" ")[0]}
+                      </p>
+                    </div>
+                    <div className="flex-1 flex items-center gap-2">
+                      {/* Exploration bar */}
+                      <div className="flex-1 h-6 bg-brand-purple-light rounded-l overflow-hidden">
+                        <div
+                          className="h-full bg-brand-purple transition-all duration-500"
+                          style={{ width: `${avgExploration}%` }}
+                        />
+                      </div>
+                      {/* Score display */}
+                      <div className="w-20 text-center flex-shrink-0">
+                        <span className="text-xs font-medium text-brand-purple">
+                          {Math.round(avgExploration)}
+                        </span>
+                        <span className="text-xs text-neutral-400 mx-1">/</span>
+                        <span className="text-xs font-medium text-brand-teal">
+                          {Math.round(avgExploitation)}
+                        </span>
+                      </div>
+                      {/* Exploitation bar */}
+                      <div className="flex-1 h-6 bg-brand-teal-light rounded-r overflow-hidden flex justify-end">
+                        <div
+                          className="h-full bg-brand-teal transition-all duration-500"
+                          style={{ width: `${avgExploitation}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
@@ -83,9 +174,34 @@ export default function DashboardPage() {
             description="Balance across all dimensions"
           />
           <CardContent>
-            <div className="h-64 flex items-center justify-center bg-neutral-50 rounded-lg border border-dashed border-neutral-200">
-              <p className="text-sm text-neutral-500">Radar chart coming in Step 5</p>
+            {/* Simple radar visualization using bars */}
+            <div className="space-y-3">
+              {radarData.map((point, index) => (
+                <div key={index} className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-neutral-700">
+                      {point.dimension}
+                    </span>
+                    <span className="text-neutral-500">
+                      E:{point.exploration} / X:{point.exploitation}
+                    </span>
+                  </div>
+                  <div className="flex gap-1 h-4">
+                    <div
+                      className="bg-brand-purple rounded-l transition-all duration-500"
+                      style={{ width: `${point.exploration / 2}%` }}
+                    />
+                    <div
+                      className="bg-brand-teal rounded-r transition-all duration-500"
+                      style={{ width: `${point.exploitation / 2}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
+            <p className="mt-4 text-xs text-neutral-500 text-center">
+              E = Exploration, X = Exploitation
+            </p>
           </CardContent>
         </Card>
       </DashboardGrid>
@@ -99,30 +215,26 @@ export default function DashboardPage() {
           />
           <CardContent>
             <div className="space-y-3">
-              {[
-                { name: "Q4 2024 Assessment", org: "TechCorp", status: "Live" },
-                { name: "Annual Review", org: "FinanceDiv", status: "Draft" },
-                { name: "Innovation Pulse", org: "R&D Team", status: "Closed" },
-              ].map((assessment, i) => (
+              {recentAssessments.map((assessment) => (
                 <div
-                  key={i}
+                  key={assessment.id}
                   className="flex items-center justify-between p-3 rounded-lg bg-neutral-50 hover:bg-neutral-100 transition-colors cursor-pointer"
                 >
-                  <div>
-                    <p className="text-sm font-medium text-neutral-900">{assessment.name}</p>
-                    <p className="text-xs text-neutral-500">{assessment.org}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-neutral-900 truncate">
+                      {assessment.name}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <p className="text-xs text-neutral-500">
+                        {assessment.responseCount}/{assessment.respondentCount} responses
+                      </p>
+                      <span className="text-neutral-300">|</span>
+                      <p className="text-xs text-neutral-500">
+                        {formatDate(assessment.lastUpdated)}
+                      </p>
+                    </div>
                   </div>
-                  <span
-                    className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      assessment.status === "Live"
-                        ? "bg-success-light text-success"
-                        : assessment.status === "Draft"
-                        ? "bg-neutral-100 text-neutral-600"
-                        : "bg-neutral-100 text-neutral-500"
-                    }`}
-                  >
-                    {assessment.status}
-                  </span>
+                  <StatusBadge status={assessment.status} />
                 </div>
               ))}
             </div>
@@ -136,14 +248,30 @@ export default function DashboardPage() {
             description="Generated analysis summary"
           />
           <CardContent>
-            <div className="p-4 bg-white/80 rounded-lg border border-brand-purple/10">
-              <p className="text-sm text-neutral-700 leading-relaxed">
-                Your organisation shows a <strong className="text-brand-purple">healthy balance</strong> between exploration and exploitation activities. The R&D division leads in innovation metrics, while Operations maintains strong efficiency scores. Consider focusing on knowledge transfer between units to further improve overall ambidexterity.
-              </p>
-            </div>
-            <p className="mt-3 text-xs text-neutral-500">
-              Generated based on latest assessment data
-            </p>
+            {latestInsight ? (
+              <>
+                <div className="p-4 bg-white/80 rounded-lg border border-brand-purple/10">
+                  <h4 className="text-sm font-medium text-neutral-900 mb-2">
+                    {latestInsight.title}
+                  </h4>
+                  <p className="text-sm text-neutral-700 leading-relaxed">
+                    {latestInsight.content}
+                  </p>
+                </div>
+                <div className="mt-3 flex items-center justify-between text-xs text-neutral-500">
+                  <span>
+                    Confidence: {Math.round(latestInsight.confidence * 100)}%
+                  </span>
+                  <span>{formatDate(latestInsight.generatedAt)}</span>
+                </div>
+              </>
+            ) : (
+              <div className="p-4 bg-white/80 rounded-lg border border-neutral-200 text-center">
+                <p className="text-sm text-neutral-500">
+                  No insights available yet
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </DashboardGrid>
