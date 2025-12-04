@@ -1,0 +1,33 @@
+import Link from "next/link";
+
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-brand-primary-light via-white to-brand-teal-light flex flex-col">
+      {/* Header */}
+      <header className="p-6">
+        <Link href="/" className="flex items-center gap-3 w-fit">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-primary to-brand-teal flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <span className="text-xl font-bold text-neutral-900">AmbiSight</span>
+        </Link>
+      </header>
+
+      {/* Content */}
+      <main className="flex-1 flex items-center justify-center p-6">
+        {children}
+      </main>
+
+      {/* Footer */}
+      <footer className="p-6 text-center text-sm text-neutral-500">
+        <p>&copy; {new Date().getFullYear()} AmbiSight. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
