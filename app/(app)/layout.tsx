@@ -1,26 +1,24 @@
 "use client";
 
 import { AppShell } from "@/components/layout";
-
-// Mock user for now - will be replaced with real auth context
-const mockUser = {
-  name: "Alex Morgan",
-  email: "alex.morgan@company.com",
-};
+import { AuthGuard } from "@/components/auth";
+import { useAuth } from "@/lib/contexts/auth-context";
 
 export default function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const handleLogout = () => {
-    // TODO: Implement real logout
-    window.location.href = "/login";
-  };
+  const { user, logout } = useAuth();
 
   return (
-    <AppShell user={mockUser} onLogout={handleLogout}>
-      {children}
-    </AppShell>
+    <AuthGuard>
+      <AppShell
+        user={user ? { name: user.name, email: user.email, avatarUrl: user.avatarUrl } : undefined}
+        onLogout={logout}
+      >
+        {children}
+      </AppShell>
+    </AuthGuard>
   );
 }
