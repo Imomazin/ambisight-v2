@@ -1,148 +1,139 @@
 @import "tailwindcss";
 
 /* ============================================
-   AmbiSight v2 - Microsoft Copilot Inspired Theme
+   AmbiSight v2 - Polished Microsoft-Inspired Theme
    ============================================ */
 
 :root {
-  /* Background & Foreground */
-  --background: #fafafa;
-  --foreground: #1a1a1a;
+  /* AmbiSight Color Palette */
+  --ambi-primary: #0078D4;          /* Microsoft blue */
+  --ambi-primary-soft: #EBF5FF;     /* Soft blue background */
+  --ambi-primary-hover: #106EBE;    /* Hover state */
 
-  /* Brand Colors - Microsoft Inspired */
-  --brand-primary: #2563eb;
-  --brand-primary-hover: #1d4ed8;
-  --brand-primary-light: #eff6ff;
+  --ambi-teal: #00A5A8;             /* Exploration accent */
+  --ambi-teal-soft: #E5F7F7;
 
-  --brand-teal: #0d9488;
-  --brand-teal-hover: #0f766e;
-  --brand-teal-light: #f0fdfa;
+  --ambi-purple: #8764B8;           /* Exploitation accent */
+  --ambi-purple-soft: #F4F0FA;
 
-  --brand-purple: #7c3aed;
-  --brand-purple-hover: #6d28d9;
-  --brand-purple-light: #f5f3ff;
+  --ambi-amber: #FF8C00;            /* Warning/highlight */
+  --ambi-amber-soft: #FFF4E5;
 
-  --brand-amber: #d97706;
-  --brand-amber-hover: #b45309;
-  --brand-amber-light: #fffbeb;
+  /* Neutrals & Surfaces */
+  --ambi-gray-bg: #F9FAFB;          /* Page background */
+  --ambi-surface: #FFFFFF;          /* Card/panel background */
+  --ambi-border: #E5E7EB;           /* Borders & dividers */
+  --ambi-border-strong: #D1D5DB;    /* Stronger borders */
 
-  /* Semantic Colors */
-  --success: #059669;
-  --success-light: #ecfdf5;
-  --warning: #d97706;
-  --warning-light: #fffbeb;
-  --error: #dc2626;
-  --error-light: #fef2f2;
+  /* Text */
+  --ambi-text-main: #1F2937;        /* Primary text */
+  --ambi-text-muted: #6B7280;       /* Secondary text */
+  --ambi-text-light: #9CA3AF;       /* Tertiary/placeholder text */
 
-  /* Neutral Palette */
-  --neutral-50: #fafafa;
-  --neutral-100: #f5f5f5;
-  --neutral-200: #e5e5e5;
-  --neutral-300: #d4d4d4;
-  --neutral-400: #a3a3a3;
-  --neutral-500: #737373;
-  --neutral-600: #525252;
-  --neutral-700: #404040;
-  --neutral-800: #262626;
-  --neutral-900: #171717;
+  /* Semantic */
+  --ambi-success: #059669;
+  --ambi-success-soft: #ECFDF5;
+  --ambi-warning: #D97706;
+  --ambi-warning-soft: #FFFBEB;
+  --ambi-error: #DC2626;
+  --ambi-error-soft: #FEF2F2;
 
-  /* Card & Surface */
-  --card-bg: #ffffff;
-  --card-border: #e5e5e5;
-  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-
-  /* Sidebar */
-  --sidebar-bg: #ffffff;
-  --sidebar-border: #e5e5e5;
-  --sidebar-item-hover: #f5f5f5;
-  --sidebar-item-active: #eff6ff;
-  --sidebar-item-active-border: #2563eb;
-
-  /* Topbar */
-  --topbar-bg: #ffffff;
-  --topbar-border: #e5e5e5;
-
-  /* Input */
-  --input-bg: #ffffff;
-  --input-border: #d4d4d4;
-  --input-border-focus: #2563eb;
-  --input-placeholder: #a3a3a3;
-
-  /* Exploration & Exploitation (Core AmbiSight Concept) */
-  --exploration: #7c3aed;
-  --exploration-light: #f5f3ff;
-  --exploitation: #0d9488;
-  --exploitation-light: #f0fdfa;
+  /* Shadows */
+  --ambi-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ambi-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --ambi-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ambi-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 @theme inline {
-  /* Map CSS variables to Tailwind */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Map to Tailwind utility classes */
 
-  /* Brand Colors */
-  --color-brand-primary: var(--brand-primary);
-  --color-brand-primary-hover: var(--brand-primary-hover);
-  --color-brand-primary-light: var(--brand-primary-light);
+  /* Primary Colors */
+  --color-ambi-primary: var(--ambi-primary);
+  --color-ambi-primary-soft: var(--ambi-primary-soft);
+  --color-ambi-primary-hover: var(--ambi-primary-hover);
 
-  --color-brand-teal: var(--brand-teal);
-  --color-brand-teal-hover: var(--brand-teal-hover);
-  --color-brand-teal-light: var(--brand-teal-light);
+  /* Accent Colors */
+  --color-ambi-teal: var(--ambi-teal);
+  --color-ambi-teal-soft: var(--ambi-teal-soft);
 
-  --color-brand-purple: var(--brand-purple);
-  --color-brand-purple-hover: var(--brand-purple-hover);
-  --color-brand-purple-light: var(--brand-purple-light);
+  --color-ambi-purple: var(--ambi-purple);
+  --color-ambi-purple-soft: var(--ambi-purple-soft);
 
-  --color-brand-amber: var(--brand-amber);
-  --color-brand-amber-hover: var(--brand-amber-hover);
-  --color-brand-amber-light: var(--brand-amber-light);
-
-  /* Semantic */
-  --color-success: var(--success);
-  --color-success-light: var(--success-light);
-  --color-warning: var(--warning);
-  --color-warning-light: var(--warning-light);
-  --color-error: var(--error);
-  --color-error-light: var(--error-light);
-
-  /* Neutrals */
-  --color-neutral-50: var(--neutral-50);
-  --color-neutral-100: var(--neutral-100);
-  --color-neutral-200: var(--neutral-200);
-  --color-neutral-300: var(--neutral-300);
-  --color-neutral-400: var(--neutral-400);
-  --color-neutral-500: var(--neutral-500);
-  --color-neutral-600: var(--neutral-600);
-  --color-neutral-700: var(--neutral-700);
-  --color-neutral-800: var(--neutral-800);
-  --color-neutral-900: var(--neutral-900);
+  --color-ambi-amber: var(--ambi-amber);
+  --color-ambi-amber-soft: var(--ambi-amber-soft);
 
   /* Surfaces */
-  --color-card-bg: var(--card-bg);
-  --color-card-border: var(--card-border);
-  --color-sidebar-bg: var(--sidebar-bg);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-topbar-bg: var(--topbar-bg);
-  --color-topbar-border: var(--topbar-border);
-  --color-input-bg: var(--input-bg);
-  --color-input-border: var(--input-border);
+  --color-ambi-gray-bg: var(--ambi-gray-bg);
+  --color-ambi-surface: var(--ambi-surface);
+  --color-ambi-border: var(--ambi-border);
+  --color-ambi-border-strong: var(--ambi-border-strong);
 
-  /* AmbiSight Specific */
-  --color-exploration: var(--exploration);
-  --color-exploration-light: var(--exploration-light);
-  --color-exploitation: var(--exploitation);
-  --color-exploitation-light: var(--exploitation-light);
+  /* Text Colors */
+  --color-ambi-text-main: var(--ambi-text-main);
+  --color-ambi-text-muted: var(--ambi-text-muted);
+  --color-ambi-text-light: var(--ambi-text-light);
 
-  /* Fonts - System font stack (Microsoft-inspired) */
+  /* Semantic Colors */
+  --color-ambi-success: var(--ambi-success);
+  --color-ambi-success-soft: var(--ambi-success-soft);
+  --color-ambi-warning: var(--ambi-warning);
+  --color-ambi-warning-soft: var(--ambi-warning-soft);
+  --color-ambi-error: var(--ambi-error);
+  --color-ambi-error-soft: var(--ambi-error-soft);
+
+  /* Legacy mappings for existing components */
+  --color-brand-primary: var(--ambi-primary);
+  --color-brand-primary-hover: var(--ambi-primary-hover);
+  --color-brand-primary-light: var(--ambi-primary-soft);
+  --color-brand-teal: var(--ambi-teal);
+  --color-brand-teal-light: var(--ambi-teal-soft);
+  --color-brand-purple: var(--ambi-purple);
+  --color-brand-purple-light: var(--ambi-purple-soft);
+  --color-brand-amber: var(--ambi-amber);
+  --color-brand-amber-light: var(--ambi-amber-soft);
+
+  /* Neutrals (legacy support) */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+
+  /* Surfaces */
+  --color-card-bg: var(--ambi-surface);
+  --color-card-border: var(--ambi-border);
+  --color-sidebar-bg: var(--ambi-surface);
+  --color-sidebar-border: var(--ambi-border);
+  --color-topbar-bg: var(--ambi-surface);
+  --color-topbar-border: var(--ambi-border);
+  --color-input-bg: var(--ambi-surface);
+  --color-input-border: var(--ambi-border);
+
+  /* Background/Foreground */
+  --color-background: var(--ambi-gray-bg);
+  --color-foreground: var(--ambi-text-main);
+
+  /* AmbiSight Specific (exploration/exploitation) */
+  --color-exploration: var(--ambi-purple);
+  --color-exploration-light: var(--ambi-purple-soft);
+  --color-exploitation: var(--ambi-teal);
+  --color-exploitation-light: var(--ambi-teal-soft);
+
+  /* Fonts - Microsoft-inspired system stack */
   --font-sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Cascadia Code", "Fira Code", ui-monospace, monospace;
 }
 
 /* Base Styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--ambi-gray-bg);
+  color: var(--ambi-text-main);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -150,7 +141,7 @@ body {
 
 /* Focus Ring Utility */
 .focus-ring {
-  @apply outline-none ring-2 ring-brand-primary ring-offset-2;
+  @apply outline-none ring-2 ring-ambi-primary ring-offset-2;
 }
 
 /* Smooth transitions for interactive elements */
@@ -165,9 +156,15 @@ body {
 
 /* Gradient backgrounds */
 .gradient-hero {
-  background: linear-gradient(135deg, var(--brand-primary-light) 0%, #ffffff 50%, var(--brand-teal-light) 100%);
+  background: linear-gradient(135deg, var(--ambi-primary-soft) 0%, #ffffff 50%, var(--ambi-teal-soft) 100%);
 }
 
 .gradient-subtle {
-  background: linear-gradient(180deg, var(--neutral-50) 0%, #ffffff 100%);
+  background: linear-gradient(180deg, var(--ambi-gray-bg) 0%, #ffffff 100%);
+}
+
+/* Landing page specific gradients */
+.gradient-hero-radial {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, var(--ambi-primary-soft) 0%, transparent 50%),
+              linear-gradient(180deg, #ffffff 0%, var(--ambi-gray-bg) 100%);
 }
