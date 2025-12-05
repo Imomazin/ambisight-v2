@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
+/* ============================================
+   AmbiSight v2 - Microsoft Copilot Inspired Theme
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background & Foreground */
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+
+  /* Brand Colors - Microsoft Inspired */
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --brand-primary-light: #eff6ff;
+
+  --brand-teal: #0d9488;
+  --brand-teal-hover: #0f766e;
+  --brand-teal-light: #f0fdfa;
+
+  --brand-purple: #7c3aed;
+  --brand-purple-hover: #6d28d9;
+  --brand-purple-light: #f5f3ff;
+
+  --brand-amber: #d97706;
+  --brand-amber-hover: #b45309;
+  --brand-amber-light: #fffbeb;
+
+  /* Semantic Colors */
+  --success: #059669;
+  --success-light: #ecfdf5;
+  --warning: #d97706;
+  --warning-light: #fffbeb;
+  --error: #dc2626;
+  --error-light: #fef2f2;
+
+  /* Neutral Palette */
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+
+  /* Card & Surface */
+  --card-bg: #ffffff;
+  --card-border: #e5e5e5;
+  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --card-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  /* Sidebar */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e5e5e5;
+  --sidebar-item-hover: #f5f5f5;
+  --sidebar-item-active: #eff6ff;
+  --sidebar-item-active-border: #2563eb;
+
+  /* Topbar */
+  --topbar-bg: #ffffff;
+  --topbar-border: #e5e5e5;
+
+  /* Input */
+  --input-bg: #ffffff;
+  --input-border: #d4d4d4;
+  --input-border-focus: #2563eb;
+  --input-placeholder: #a3a3a3;
+
+  /* Exploration & Exploitation (Core AmbiSight Concept) */
+  --exploration: #7c3aed;
+  --exploration-light: #f5f3ff;
+  --exploitation: #0d9488;
+  --exploitation-light: #f0fdfa;
 }
 
 @theme inline {
+  /* Map CSS variables to Tailwind */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Brand Colors */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-primary-light: var(--brand-primary-light);
+
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-teal-hover: var(--brand-teal-hover);
+  --color-brand-teal-light: var(--brand-teal-light);
+
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-purple-hover: var(--brand-purple-hover);
+  --color-brand-purple-light: var(--brand-purple-light);
+
+  --color-brand-amber: var(--brand-amber);
+  --color-brand-amber-hover: var(--brand-amber-hover);
+  --color-brand-amber-light: var(--brand-amber-light);
+
+  /* Semantic */
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-error: var(--error);
+  --color-error-light: var(--error-light);
+
+  /* Neutrals */
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+
+  /* Surfaces */
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-topbar-bg: var(--topbar-bg);
+  --color-topbar-border: var(--topbar-border);
+  --color-input-bg: var(--input-bg);
+  --color-input-border: var(--input-border);
+
+  /* AmbiSight Specific */
+  --color-exploration: var(--exploration);
+  --color-exploration-light: var(--exploration-light);
+  --color-exploitation: var(--exploitation);
+  --color-exploitation-light: var(--exploitation-light);
+
+  /* Fonts - System font stack (Microsoft-inspired) */
+  --font-sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Code", "Fira Code", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base Styles */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus Ring Utility */
+.focus-ring {
+  @apply outline-none ring-2 ring-brand-primary ring-offset-2;
+}
+
+/* Smooth transitions for interactive elements */
+.transition-default {
+  @apply transition-all duration-200 ease-out;
+}
+
+/* Card hover effect */
+.card-hover {
+  @apply transition-all duration-200 ease-out hover:shadow-md hover:-translate-y-0.5;
+}
+
+/* Gradient backgrounds */
+.gradient-hero {
+  background: linear-gradient(135deg, var(--brand-primary-light) 0%, #ffffff 50%, var(--brand-teal-light) 100%);
+}
+
+.gradient-subtle {
+  background: linear-gradient(180deg, var(--neutral-50) 0%, #ffffff 100%);
 }
